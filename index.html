@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Language Memory</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont,
+                   "SF Pro Display", sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+    }
+
+    .app {
+      max-width: 500px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 24px 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #777;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .review-number {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: 600;
+      background: #007aff;
+      color: white;
+      margin-top: 10px;
+    }
+
+    button.secondary {
+      background: #e5e5ea;
+      color: #1d1d1f;
+    }
+
+    .language {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .language:last-child {
+      border-bottom: none;
+    }
+
+    .flag {
+      font-size: 28px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <h1>Language Memory</h1>
+
+    <div class="subtitle">
+      我的语言记忆
+    </div>
+
+    <div class="card">
+
+      <div>今日复习</div>
+
+      <div class="review-number">
+        8
+      </div>
+
+      <div style="color:#777;">
+        个单词等待复习
+      </div>
+
+      <button>
+        开始复习
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h2>我的语言</h2>
+
+      <div class="language">
+        <div>
+          <span class="flag">🇺🇸</span>
+          English
+        </div>
+
+        <div>
+          0 个单词
+        </div>
+      </div>
+
+      <div class="language">
+        <div>
+          <span class="flag">🇯🇵</span>
+          日本語
+        </div>
+
+        <div>
+          0 个单词
+        </div>
+      </div>
+
+      <button class="secondary">
+        ＋ 添加语言
+      </button>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
