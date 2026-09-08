@@ -1,154 +1,1884 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<title>Language Memory</title>
 
-  <title>Language Memory</title>
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+    margin: 0;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+}
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont,
-                   "SF Pro Display", sans-serif;
-      background: #f5f5f7;
-      color: #1d1d1f;
-    }
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
 
-    .app {
-      max-width: 500px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding: 24px 20px;
-    }
+.app {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 28px 18px 50px;
+}
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
+/* =========================
+   Header
+========================= */
 
-    .subtitle {
-      color: #777;
-      margin-bottom: 28px;
-    }
+.header {
+    margin-bottom: 22px;
+}
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
+.header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.7px;
+}
 
-    .review-number {
-      font-size: 48px;
-      font-weight: 700;
-      margin: 10px 0;
-    }
+.header p {
+    margin: 5px 0 0;
+    color: #86868b;
+    font-size: 14px;
+}
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 15px;
-      font-size: 17px;
-      font-weight: 600;
-      background: #007aff;
-      color: white;
-      margin-top: 10px;
-    }
+/* =========================
+   Card
+========================= */
 
-    button.secondary {
-      background: #e5e5ea;
-      color: #1d1d1f;
-    }
+.card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow:
+        0 2px 12px rgba(0,0,0,0.04),
+        0 1px 2px rgba(0,0,0,0.04);
+}
 
-    .language {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
+/* =========================
+   Today
+========================= */
 
-    .language:last-child {
-      border-bottom: none;
-    }
+.today {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-    .flag {
-      font-size: 28px;
-      margin-right: 10px;
-    }
-  </style>
+.today-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.today-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.today-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #86868b;
+}
+
+.today-number {
+    font-size: 38px;
+    font-weight: 700;
+}
+
+/* =========================
+   Language
+========================= */
+
+.section-title {
+    font-size: 17px;
+    font-weight: 650;
+    margin-bottom: 15px;
+}
+
+.language-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #eeeeef;
+}
+
+.language-row:last-child {
+    border-bottom: none;
+}
+
+.language-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flag {
+    font-size: 23px;
+}
+
+.language-count {
+    color: #86868b;
+    font-size: 14px;
+}
+
+/* =========================
+   Add word form
+========================= */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.input,
+.textarea,
+.select {
+    width: 100%;
+    border: 1px solid #dedee3;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 13px 14px;
+    outline: none;
+    color: #1d1d1f;
+    transition: 0.2s;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+    border-color: #8e8e93;
+    background: #fff;
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.button {
+    width: 100%;
+    border: none;
+    border-radius: 13px;
+    padding: 14px;
+    background: #1d1d1f;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button:disabled {
+    opacity: 0.5;
+}
+
+/* =========================
+   Search
+========================= */
+
+.search-box {
+    margin-bottom: 15px;
+}
+
+.search-input {
+    width: 100%;
+    border: none;
+    background: #fff;
+    border-radius: 13px;
+    padding: 13px 15px;
+    outline: none;
+    box-shadow: inset 0 0 0 1px #eeeeef;
+}
+
+/* =========================
+   Word card
+========================= */
+
+.word-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 13px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.word-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.word-main {
+    min-width: 0;
+}
+
+.word {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    word-break: break-word;
+}
+
+.word-meta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #86868b;
+    font-size: 13px;
+}
+
+.part-of-speech {
+    background: #f1f1f3;
+    border-radius: 7px;
+    padding: 3px 7px;
+    color: #555;
+}
+
+.audio-button {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: none;
+    border-radius: 50%;
+    background: #f2f2f7;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.audio-button:active {
+    transform: scale(0.92);
+}
+
+/* =========================
+   Meaning
+========================= */
+
+.info-section {
+    margin-top: 18px;
+}
+
+.info-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.chinese-definition {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.english-definition {
+    color: #3a3a3c;
+    line-height: 1.55;
+    font-size: 14px;
+}
+
+/* =========================
+   Forms
+========================= */
+
+.forms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.form-item {
+    background: #f5f5f7;
+    padding: 7px 9px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.form-item strong {
+    font-weight: 600;
+}
+
+/* =========================
+   Synonyms
+========================= */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.tag {
+    background: #f5f5f7;
+    padding: 6px 9px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+/* =========================
+   My example
+========================= */
+
+.my-example {
+    margin-top: 18px;
+    padding: 13px;
+    background: #fafafa;
+    border-radius: 12px;
+    border-left: 3px solid #1d1d1f;
+}
+
+.my-example-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.my-example-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #333;
+}
+
+/* =========================
+   Delete
+========================= */
+
+.delete-button {
+    margin-top: 16px;
+    border: none;
+    background: transparent;
+    color: #ff3b30;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* =========================
+   Empty
+========================= */
+
+.empty {
+    text-align: center;
+    color: #86868b;
+    font-size: 14px;
+    padding: 25px 10px;
+}
+
+/* =========================
+   Loading
+========================= */
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #86868b;
+    font-size: 14px;
+}
+
+/* =========================
+   Toast
+========================= */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(29,29,31,0.92);
+    color: white;
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* =========================
+   Divider
+========================= */
+
+.divider {
+    height: 1px;
+    background: #eeeeef;
+    margin: 20px 0;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <h1>Language Memory</h1>
-
-    <div class="subtitle">
-      我的语言记忆
+    <!-- Header -->
+    <div class="header">
+        <h1>Language Memory</h1>
+        <p>我的语言记忆</p>
     </div>
 
+
+    <!-- 今日复习 -->
+    <div class="card today">
+        <div class="today-left">
+            <div class="today-title">今日复习</div>
+            <div class="today-subtitle">继续积累你的语言记忆</div>
+        </div>
+
+        <div class="today-number" id="todayCount">0</div>
+    </div>
+
+
+    <!-- 我的语言 -->
     <div class="card">
 
-      <div>今日复习</div>
+        <div class="section-title">我的语言</div>
 
-      <div class="review-number">
-        8
-      </div>
+        <div class="language-row">
+            <div class="language-name">
+                <span class="flag">🇺🇸</span>
+                <span>English</span>
+            </div>
 
-      <div style="color:#777;">
-        个单词等待复习
-      </div>
+            <div class="language-count" id="englishCount">
+                0 words
+            </div>
+        </div>
 
-      <button>
-        开始复习
-      </button>
+
+        <div class="language-row">
+            <div class="language-name">
+                <span class="flag">🇯🇵</span>
+                <span>日本語</span>
+            </div>
+
+            <div class="language-count" id="japaneseCount">
+                0 words
+            </div>
+        </div>
 
     </div>
 
+
+    <!-- 添加单词 -->
     <div class="card">
 
-      <h2>我的语言</h2>
+        <div class="section-title">＋ 添加语言</div>
 
-      <div class="language">
-        <div>
-          <span class="flag">🇺🇸</span>
-          English
+        <div class="form-group">
+
+            <label class="form-label">
+                Language
+            </label>
+
+            <select id="language" class="select">
+                <option value="en">🇺🇸 English</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+
         </div>
 
-        <div>
-          0 个单词
-        </div>
-      </div>
 
-      <div class="language">
-        <div>
-          <span class="flag">🇯🇵</span>
-          日本語
+        <div class="form-group">
+
+            <label class="form-label">
+                单词
+            </label>
+
+            <input
+                id="wordInput"
+                class="input"
+                type="text"
+                placeholder="例如：manipulate"
+                autocomplete="off"
+            >
+
         </div>
 
-        <div>
-          0 个单词
-        </div>
-      </div>
 
-      <button class="secondary">
-        ＋ 添加语言
-      </button>
+        <div class="form-group">
+
+            <label class="form-label">
+                我的例句
+            </label>
+
+            <textarea
+                id="exampleInput"
+                class="textarea"
+                placeholder="写一个你自己的例句……"
+            ></textarea>
+
+        </div>
+
+
+        <button
+            id="addButton"
+            class="button"
+            onclick="addWord()"
+        >
+            添加到我的词库
+        </button>
 
     </div>
 
-  </div>
+
+    <!-- 我的词库 -->
+    <div class="card">
+
+        <div class="section-title">
+            我的词库
+        </div>
+
+        <div class="search-box">
+
+            <input
+                id="searchInput"
+                class="search-input"
+                type="text"
+                placeholder="搜索我的单词……"
+                oninput="renderWords()"
+            >
+
+        </div>
+
+        <div id="wordList"></div>
+
+    </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   Language Memory
+   ===================================================== */
+
+
+/* -------------------------
+   Storage
+------------------------- */
+
+const STORAGE_KEY = "language_memory_words";
+
+
+function getWords() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveWords(words) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(words)
+    );
+
+}
+
+
+/* -------------------------
+   Toast
+------------------------- */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2200);
+
+}
+
+
+/* -------------------------
+   Escape HTML
+------------------------- */
+
+function escapeHTML(text) {
+
+    if (!text) return "";
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* -------------------------
+   Get dictionary data
+------------------------- */
+
+async function fetchDictionary(word, language) {
+
+    /*
+        Free Dictionary API
+
+        English:
+        https://api.dictionaryapi.dev/api/v2/entries/en/WORD
+
+        Japanese:
+        This API does not reliably provide Japanese dictionary
+        data, so Japanese is currently handled separately.
+    */
+
+    if (language !== "en") {
+
+        return {
+            word: word,
+            phonetic: "",
+            audio: "",
+            partOfSpeech: "",
+            definitions: [],
+            synonyms: [],
+            antonyms: []
+        };
+
+    }
+
+
+    const url =
+        "https://api.dictionaryapi.dev/api/v2/entries/en/" +
+        encodeURIComponent(word);
+
+
+    const response =
+        await fetch(url);
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Dictionary lookup failed"
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (!Array.isArray(data) || !data[0]) {
+
+        throw new Error(
+            "No dictionary result"
+        );
+
+    }
+
+
+    const entry = data[0];
+
+
+    let phonetic = "";
+    let audio = "";
+
+
+    /*
+       优先寻找带音频的 phonetic
+    */
+
+    if (Array.isArray(entry.phonetics)) {
+
+        const audioItem =
+            entry.phonetics.find(
+                item =>
+                    item.audio &&
+                    item.audio.includes(".")
+            );
+
+
+        if (audioItem) {
+
+            audio =
+                audioItem.audio;
+
+            phonetic =
+                audioItem.text || "";
+
+        }
+
+
+        if (!phonetic) {
+
+            const phoneticItem =
+                entry.phonetics.find(
+                    item => item.text
+                );
+
+            if (phoneticItem) {
+
+                phonetic =
+                    phoneticItem.text;
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       Definitions
+    */
+
+    const definitions = [];
+
+
+    if (Array.isArray(entry.meanings)) {
+
+        entry.meanings.forEach(
+            meaning => {
+
+                const part =
+                    meaning.partOfSpeech || "";
+
+
+                if (
+                    Array.isArray(
+                        meaning.definitions
+                    )
+                ) {
+
+                    meaning.definitions
+                        .forEach(def => {
+
+                            definitions.push({
+
+                                partOfSpeech: part,
+
+                                definition:
+                                    def.definition || "",
+
+                                example:
+                                    def.example || "",
+
+                                synonyms:
+                                    def.synonyms || [],
+
+                                antonyms:
+                                    def.antonyms || []
+
+                            });
+
+                        });
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+       Synonyms / antonyms
+    */
+
+    const synonyms = [];
+    const antonyms = [];
+
+
+    definitions.forEach(def => {
+
+        if (def.synonyms) {
+
+            def.synonyms.forEach(word => {
+
+                if (
+                    !synonyms.includes(word)
+                ) {
+
+                    synonyms.push(word);
+
+                }
+
+            });
+
+        }
+
+
+        if (def.antonyms) {
+
+            def.antonyms.forEach(word => {
+
+                if (
+                    !antonyms.includes(word)
+                ) {
+
+                    antonyms.push(word);
+
+                }
+
+            });
+
+        }
+
+    });
+
+
+    return {
+
+        word:
+            entry.word || word,
+
+        phonetic,
+
+        audio,
+
+        partOfSpeech:
+            definitions[0]
+                ?.partOfSpeech || "",
+
+        definitions,
+
+        synonyms,
+
+        antonyms
+
+    };
+
+}
+
+
+/* -------------------------
+   Word forms
+------------------------- */
+
+function generateWordForms(
+    word,
+    partOfSpeech
+) {
+
+    /*
+       这是一个简单的规则型词形系统。
+
+       后续可以替换成更专业的 morphology API。
+    */
+
+    if (
+        !partOfSpeech ||
+        partOfSpeech !== "verb"
+    ) {
+
+        return {};
+
+    }
+
+
+    let thirdPerson;
+    let past;
+    let participle;
+
+
+    /*
+       基础规则
+    */
+
+    if (
+        word.endsWith("y") &&
+        !/[aeiou]y$/i.test(word)
+    ) {
+
+        thirdPerson =
+            word.slice(0, -1) + "ies";
+
+    } else if (
+        /(?:s|x|z|ch|sh)$/i.test(word)
+    ) {
+
+        thirdPerson =
+            word + "es";
+
+    } else {
+
+        thirdPerson =
+            word + "s";
+
+    }
+
+
+    /*
+       Past / past participle
+    */
+
+    if (word.endsWith("e")) {
+
+        past =
+            word + "d";
+
+    } else if (
+        word.endsWith("y") &&
+        !/[aeiou]y$/i.test(word)
+    ) {
+
+        past =
+            word.slice(0, -1) + "ied";
+
+    } else {
+
+        past =
+            word + "ed";
+
+    }
+
+
+    /*
+       Present participle
+    */
+
+    if (word.endsWith("ie")) {
+
+        participle =
+            word.slice(0, -2) + "ying";
+
+    } else if (word.endsWith("e") &&
+               !word.endsWith("ee") &&
+               !word.endsWith("ye")) {
+
+        participle =
+            word.slice(0, -1) + "ing";
+
+    } else {
+
+        participle =
+            word + "ing";
+
+    }
+
+
+    return {
+
+        base: word,
+
+        thirdPerson,
+
+        past,
+
+        pastParticiple: past,
+
+        presentParticiple: participle
+
+    };
+
+}
+
+
+/* -------------------------
+   Chinese explanation
+------------------------- */
+
+function generateChineseExplanation(
+    word,
+    definitions
+) {
+
+    /*
+       免费英文词典 API 本身主要提供英文 definition。
+
+       这里暂时把英文 definition 显示出来，
+       同时根据常见词提供中文解释。
+
+       后续如果接入中文词典 / AI API，
+       可以把这里升级成真正的双语词典解释。
+    */
+
+
+    const known = {
+
+        manipulate:
+            "操纵；控制；摆布。通常带有贬义，指一个人为了自己的利益，通过不公平、不诚实或隐蔽的方式影响或控制别人。",
+
+        influence:
+            "影响；对某人或某事产生作用。通常比 manipulate 更中性，不一定带有负面含义。",
+
+        control:
+            "控制；掌控。可以是中性的，不一定表示通过不公平或隐蔽的手段控制别人。",
+
+        persuade:
+            "说服；劝服。指通过理由、解释或其他方式使别人接受某个观点或采取某种行动。",
+
+        convince:
+            "使某人相信；使信服。重点在于让对方相信某个观点、事实或判断。"
+
+    };
+
+
+    if (
+        known[
+            word.toLowerCase()
+        ]
+    ) {
+
+        return known[
+            word.toLowerCase()
+        ];
+
+    }
+
+
+    /*
+       如果没有中文词典结果，
+       不伪造中文解释。
+
+       先显示提示，让用户知道这是 API
+       的英文释义。
+    */
+
+    if (
+        definitions &&
+        definitions.length > 0
+    ) {
+
+        return "中文释义暂未自动获取。下面显示英文词典释义，你可以保留自己的理解和例句。";
+
+    }
+
+
+    return "暂时没有找到释义。";
+
+}
+
+
+/* -------------------------
+   Add Word
+------------------------- */
+
+async function addWord() {
+
+    const language =
+        document.getElementById(
+            "language"
+        ).value;
+
+
+    const word =
+        document.getElementById(
+            "wordInput"
+        ).value.trim();
+
+
+    const example =
+        document.getElementById(
+            "exampleInput"
+        ).value.trim();
+
+
+    if (!word) {
+
+        showToast(
+            "请输入单词"
+        );
+
+        return;
+
+    }
+
+
+    if (!example) {
+
+        showToast(
+            "请输入你的例句"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "addButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "正在查询词典…";
+
+
+    try {
+
+        const dictionary =
+            await fetchDictionary(
+                word,
+                language
+            );
+
+
+        const definitions =
+            dictionary.definitions || [];
+
+
+        const partOfSpeech =
+            dictionary.partOfSpeech || "";
+
+
+        const forms =
+            generateWordForms(
+                dictionary.word || word,
+                partOfSpeech
+            );
+
+
+        const chineseExplanation =
+            generateChineseExplanation(
+                word,
+                definitions
+            );
+
+
+        const newWord = {
+
+            id:
+                Date.now(),
+
+            language,
+
+            word:
+                dictionary.word || word,
+
+            phonetic:
+                dictionary.phonetic || "",
+
+            audio:
+                dictionary.audio || "",
+
+            partOfSpeech,
+
+            chineseExplanation,
+
+            definitions,
+
+            synonyms:
+                dictionary.synonyms || [],
+
+            antonyms:
+                dictionary.antonyms || [],
+
+            forms,
+
+            myExample:
+                example,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        const words =
+            getWords();
+
+
+        /*
+           防止完全重复
+        */
+
+        const duplicate =
+            words.some(item =>
+                item.language === language &&
+                item.word.toLowerCase() ===
+                    newWord.word.toLowerCase()
+            );
+
+
+        if (duplicate) {
+
+            showToast(
+                "这个单词已经在你的词库里了"
+            );
+
+            return;
+
+        }
+
+
+        words.unshift(
+            newWord
+        );
+
+
+        saveWords(
+            words
+        );
+
+
+        /*
+           清空输入框
+        */
+
+        document.getElementById(
+            "wordInput"
+        ).value = "";
+
+
+        document.getElementById(
+            "exampleInput"
+        ).value = "";
+
+
+        renderWords();
+
+        updateStats();
+
+
+        showToast(
+            "已添加到你的词库 ✓"
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "没有找到这个单词，请检查拼写"
+        );
+
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "添加到我的词库";
+
+    }
+
+}
+
+
+/* -------------------------
+   Render Words
+------------------------- */
+
+function renderWords() {
+
+    const container =
+        document.getElementById(
+            "wordList"
+        );
+
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    let words =
+        getWords();
+
+
+    if (search) {
+
+        words =
+            words.filter(item => {
+
+                return (
+
+                    item.word
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    item.myExample
+                        .toLowerCase()
+                        .includes(search)
+
+                );
+
+            });
+
+    }
+
+
+    if (words.length === 0) {
+
+        container.innerHTML =
+            `<div class="empty">
+                还没有单词<br>
+                输入一个你最近遇到的单词吧
+            </div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        words
+            .map(word =>
+                createWordCard(word)
+            )
+            .join("");
+
+}
+
+
+/* -------------------------
+   Create Word Card
+------------------------- */
+
+function createWordCard(item) {
+
+    const definition =
+        item.definitions &&
+        item.definitions.length
+            ? item.definitions[0]
+            : null;
+
+
+    const englishDefinition =
+        definition
+            ?.definition || "";
+
+
+    const languageFlag =
+        item.language === "ja"
+            ? "🇯🇵"
+            : "🇺🇸";
+
+
+    const phonetic =
+        item.phonetic
+            ? `<span>${escapeHTML(item.phonetic)}</span>`
+            : "";
+
+
+    const partOfSpeech =
+        item.partOfSpeech
+            ? `<span class="part-of-speech">
+                    ${escapeHTML(item.partOfSpeech)}
+               </span>`
+            : "";
+
+
+    let formsHTML = "";
+
+
+    if (
+        item.forms &&
+        Object.keys(item.forms).length
+    ) {
+
+        formsHTML = `
+
+            <div class="info-section">
+
+                <div class="info-title">
+                    📚 Word forms
+                </div>
+
+                <div class="forms">
+
+                    ${
+                        item.forms.base
+                        ? `
+                        <div class="form-item">
+                            Base:
+                            <strong>
+                                ${escapeHTML(item.forms.base)}
+                            </strong>
+                        </div>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.forms.thirdPerson
+                        ? `
+                        <div class="form-item">
+                            3rd person:
+                            <strong>
+                                ${escapeHTML(item.forms.thirdPerson)}
+                            </strong>
+                        </div>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.forms.past
+                        ? `
+                        <div class="form-item">
+                            Past:
+                            <strong>
+                                ${escapeHTML(item.forms.past)}
+                            </strong>
+                        </div>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.forms.pastParticiple
+                        ? `
+                        <div class="form-item">
+                            Past participle:
+                            <strong>
+                                ${escapeHTML(item.forms.pastParticiple)}
+                            </strong>
+                        </div>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.forms.presentParticiple
+                        ? `
+                        <div class="form-item">
+                            Present participle:
+                            <strong>
+                                ${escapeHTML(item.forms.presentParticiple)}
+                            </strong>
+                        </div>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    let synonymsHTML = "";
+
+
+    if (
+        item.synonyms &&
+        item.synonyms.length
+    ) {
+
+        synonymsHTML = `
+
+            <div class="info-section">
+
+                <div class="info-title">
+                    Similar words
+                </div>
+
+                <div class="tags">
+
+                    ${
+                        item.synonyms
+                            .slice(0, 10)
+                            .map(word =>
+                                `<span class="tag">
+                                    ${escapeHTML(word)}
+                                </span>`
+                            )
+                            .join("")
+                    }
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    let antonymsHTML = "";
+
+
+    if (
+        item.antonyms &&
+        item.antonyms.length
+    ) {
+
+        antonymsHTML = `
+
+            <div class="info-section">
+
+                <div class="info-title">
+                    Opposites
+                </div>
+
+                <div class="tags">
+
+                    ${
+                        item.antonyms
+                            .slice(0, 10)
+                            .map(word =>
+                                `<span class="tag">
+                                    ${escapeHTML(word)}
+                                </span>`
+                            )
+                            .join("")
+                    }
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    return `
+
+        <div class="word-card">
+
+            <div class="word-header">
+
+                <div class="word-main">
+
+                    <div class="word">
+                        ${languageFlag}
+                        ${escapeHTML(item.word)}
+                    </div>
+
+                    <div class="word-meta">
+
+                        ${phonetic}
+
+                        ${partOfSpeech}
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    item.audio
+                    ? `
+                    <button
+                        class="audio-button"
+                        onclick="playAudio('${escapeAttribute(item.audio)}')"
+                        aria-label="播放发音"
+                    >
+                        🔊
+                    </button>
+                    `
+                    : ""
+                }
+
+            </div>
+
+
+            ${
+                item.chineseExplanation
+                ? `
+                <div class="info-section">
+
+                    <div class="info-title">
+                        🇨🇳 中文解释
+                    </div>
+
+                    <div class="chinese-definition">
+                        ${escapeHTML(
+                            item.chineseExplanation
+                        )}
+                    </div>
+
+                </div>
+                `
+                : ""
+            }
+
+
+            ${
+                englishDefinition
+                ? `
+                <div class="info-section">
+
+                    <div class="info-title">
+                        🇺🇸 English definition
+                    </div>
+
+                    <div class="english-definition">
+                        ${escapeHTML(
+                            englishDefinition
+                        )}
+                    </div>
+
+                </div>
+                `
+                : ""
+            }
+
+
+            ${formsHTML}
+
+
+            ${synonymsHTML}
+
+
+            ${antonymsHTML}
+
+
+            <div class="my-example">
+
+                <div class="my-example-title">
+                    ⭐ 我的例句
+                </div>
+
+                <div class="my-example-text">
+                    ${escapeHTML(
+                        item.myExample
+                    )}
+                </div>
+
+            </div>
+
+
+            <button
+                class="delete-button"
+                onclick="deleteWord(${item.id})"
+            >
+                删除这个单词
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* -------------------------
+   Escape attribute
+------------------------- */
+
+function escapeAttribute(text) {
+
+    return String(text)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+
+}
+
+
+/* -------------------------
+   Play audio
+------------------------- */
+
+function playAudio(url) {
+
+    if (!url) return;
+
+    const audio =
+        new Audio(url);
+
+    audio.play()
+        .catch(() => {
+
+            showToast(
+                "暂时无法播放发音"
+            );
+
+        });
+
+}
+
+
+/* -------------------------
+   Delete
+------------------------- */
+
+function deleteWord(id) {
+
+    const confirmed =
+        confirm(
+            "确定要删除这个单词吗？"
+        );
+
+
+    if (!confirmed) return;
+
+
+    let words =
+        getWords();
+
+
+    words =
+        words.filter(
+            item => item.id !== id
+        );
+
+
+    saveWords(
+        words
+    );
+
+
+    renderWords();
+
+    updateStats();
+
+
+    showToast(
+        "已删除"
+    );
+
+}
+
+
+/* -------------------------
+   Statistics
+------------------------- */
+
+function updateStats() {
+
+    const words =
+        getWords();
+
+
+    const english =
+        words.filter(
+            item => item.language === "en"
+        ).length;
+
+
+    const japanese =
+        words.filter(
+            item => item.language === "ja"
+        ).length;
+
+
+    document.getElementById(
+        "englishCount"
+    ).textContent =
+        `${english} ${english === 1 ? "word" : "words"}`;
+
+
+    document.getElementById(
+        "japaneseCount"
+    ).textContent =
+        `${japanese} ${japanese === 1 ? "word" : "words"}`;
+
+
+    /*
+       今日复习
+
+       当前先显示总词数。
+       后续可以升级成真正的间隔重复算法。
+    */
+
+    document.getElementById(
+        "todayCount"
+    ).textContent =
+        words.length;
+
+}
+
+
+/* -------------------------
+   Enter shortcut
+------------------------- */
+
+document
+    .getElementById("wordInput")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                document
+                    .getElementById(
+                        "exampleInput"
+                    )
+                    .focus();
+
+            }
+
+        }
+    );
+
+
+/* -------------------------
+   Initialize
+------------------------- */
+
+renderWords();
+
+updateStats();
+
+</script>
 
 </body>
 </html>
