@@ -27,17 +27,15 @@
     <h2>输入单词界面</h2>
     <div class="input-group">
         <label>Target Word (目标单词)</label>
-        <input type="text" id="wordInput" placeholder="例如: pet" value="pet">
+        <input type="text" id="wordInput" placeholder="例如: pet" value="ripe">
     </div>
     <div class="input-group">
         <label>My Sentence (我的例句)</label>
-        <input type="text" id="sentenceInput" placeholder="例如: Can I pet your dog?" value="Can I pet your dog?">
+        <input type="text" id="sentenceInput" placeholder="例如: Can I pet your dog?" value="our mango is not ripe enough">
     </div>
     <button onclick="generateCard()">自动生成卡片 (Generate)</button>
 
-    <div id="outputCard" class="card-output">
-        <!-- 自动补全的视图容器 -->
-    </div>
+    <div id="outputCard" class="card-output"></div>
 </div>
 
 <script>
@@ -55,13 +53,23 @@
         outputCard.innerHTML = `<p style="color: #666; font-size: 14px;">正在连接字典 API 抓取数据并执行过滤...</p>`;
 
         try {
-            // 请求免费的 Free Dictionary API
-            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            if (!response.ok) throw new Error("未找到该单词，请检查拼写。");
+            const targetUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+            let response;
+            
+            try {
+                // 优先尝试直连请求
+                response = await fetch(targetUrl);
+            } catch (networkError) {
+                // 若直连被沙盒/插件拦截，自动切换至 CORS 代理通道穿透限制
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                response = await fetch(proxyUrl);
+            }
+
+            if (!response.ok) throw new Error("未找到该单词，请检查拼写或网络连接。");
             
             const data = (await response.json())[0];
             
-            // 1. 抓取美式发音与音频
+            // 抓取美式发音与音频
             let phoneticText = data.phonetic || "";
             let audioUrl = "";
             if (data.phonetics) {
@@ -69,15 +77,18 @@
                 if (usPhonetic) {
                     phoneticText = usPhonetic.text || phoneticText;
                     audioUrl = usPhonetic.audio;
+                } else if (data.phonetics.length > 0 && data.phonetics[0].audio) {
+                    // 如果没有美式发音标签，回退抓取第一个可用音频
+                    phoneticText = data.phonetics[0].text || phoneticText;
+                    audioUrl = data.phonetics[0].audio;
                 }
             }
 
-            // 2. 核心规则：按词性提取，每个词性遇到第一个带 example 的释义就提取并跳出
+            // 核心规则：按词性提取，每个词性遇到第一个带 example 的释义就提取并跳出
             let meaningsHtml = '';
             if (data.meanings) {
                 data.meanings.forEach(meaning => {
                     const pos = meaning.partOfSpeech;
-                    // 核心过滤：寻找含有例句的第一个定义
                     const defWithExample = meaning.definitions.find(d => d.example);
                     
                     if (defWithExample || meaning.definitions.length > 0) {
@@ -96,10 +107,10 @@
                 });
             }
 
-            // 3. 变形词 (Free API 不直出词形变化，此处先用基础规则演示占位)
+            // 变形词拼接
             const forms = `${word}s / ${word}ed / ${word}ed / ${word}ing`;
 
-            // 4. 将清洗后的数据组装成最终卡片 UI
+            // 组装最终卡片 UI
             let cardHtml = `
                 <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #111;">
                     单词：${word}
